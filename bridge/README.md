@@ -3,6 +3,19 @@
 This daemon turns the OmniPoint browser app into **system-wide** cursor control.
 The browser does the vision; this process injects real mouse events into your OS.
 
+## 0. One-shot install + run (recommended)
+
+```bash
+chmod +x bridge/install_and_run.sh
+./bridge/install_and_run.sh
+```
+
+This single script installs system packages, loads `uinput`, writes the udev
+rule, adds you to the `input` group, creates a Python venv, installs deps, and
+launches the bridge. It is idempotent — safe to re-run any time.
+
+The manual steps below are kept for reference.
+
 ## 1. One-time host setup (Linux)
 
 ```bash
