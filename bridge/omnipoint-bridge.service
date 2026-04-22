@@ -1,0 +1,34 @@
+[Unit]
+Description=OmniPoint HCI HID Bridge
+Documentation=https://github.com/ (see bridge/README.md)
+After=network.target systemd-udev-settle.service
+Wants=systemd-udev-settle.service
+
+[Service]
+Type=simple
+# These are filled in by install_service.sh:
+#   __USER__       -> the invoking user
+#   __BRIDGE_DIR__ -> absolute path to the bridge/ folder
+User=__USER__
+Group=input
+SupplementaryGroups=input
+WorkingDirectory=__BRIDGE_DIR__
+ExecStartPre=/sbin/modprobe uinput
+ExecStart=__BRIDGE_DIR__/.venv/bin/python __BRIDGE_DIR__/omnipoint_bridge.py
+Restart=on-failure
+RestartSec=2
+StartLimitIntervalSec=60
+StartLimitBurst=10
+
+# Hardening (still allows /dev/uinput via the input group)
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=true
+DeviceAllow=/dev/uinput rw
+
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
