@@ -1,0 +1,4 @@
+websockets>=12.0
+python-uinput>=0.11.2 ; sys_platform == "linux"
+pynput>=1.7.6
+python-xlib>=0.33 ; sys_platform == "linux"
