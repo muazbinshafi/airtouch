@@ -52,7 +52,19 @@ camera, and the WS LED will turn green. Move your **index finger** — the real
 OS cursor moves anywhere on your desktop. Pinch thumb+index to click, hold to
 drag, raise index+middle and move up/down to scroll.
 
-## 4. Autostart on login (optional, systemd --user)
+## 4. Autostart at boot (recommended, system-wide systemd)
+
+```bash
+./bridge/install_service.sh         # install, enable, and start
+journalctl -u omnipoint-bridge -f   # follow live logs
+./bridge/install_service.sh --uninstall
+```
+
+The unit lives at `/etc/systemd/system/omnipoint-bridge.service`, runs as your
+user with the `input` group, calls `modprobe uinput` first, and is set to
+`Restart=on-failure` (2 s backoff, 10 retries / 60 s).
+
+## 4b. Autostart on login only (alternative, systemd --user)
 
 `~/.config/systemd/user/omnipoint-bridge.service`:
 

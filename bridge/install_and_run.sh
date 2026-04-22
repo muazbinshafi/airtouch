@@ -96,5 +96,10 @@ if [[ "$NEED_RELOGIN" == "1" ]]; then
   warn "If the bridge fails with a permission error, log out and back in, then re-run this script."
 fi
 
+if [[ "${OMNIPOINT_SETUP_ONLY:-0}" == "1" ]]; then
+  log "Setup-only mode (OMNIPOINT_SETUP_ONLY=1): skipping launch."
+  exit 0
+fi
+
 log "Starting OmniPoint bridge on ws://0.0.0.0:8765 (Ctrl+C to stop)"
 exec python "$SCRIPT_DIR/omnipoint_bridge.py"
